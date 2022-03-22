@@ -149,6 +149,12 @@ const SearchMain = ({ searchs, setSearchs }) => {
         getSearchs(setSearchs)
     }
 
+    const handlesetSearchTerm = e => {
+        setSearchTerm(e.target.value)
+        setSearchs([])
+    }
+
+
 
     function handleDetails() {
         window.location = "/more"
@@ -168,7 +174,7 @@ const SearchMain = ({ searchs, setSearchs }) => {
                             className={classes.input}
                             type="text"
                             placeholder="Search..."
-                            onChange={(e) => setSearchTerm(e.target.value)}
+                            onChange={(e) => handlesetSearchTerm(e)}
                         />
                         <button
                             id="searchButton"

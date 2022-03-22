@@ -225,7 +225,7 @@ const SearchMore = ({ searchs, setSearchs }) => {
 
     const handlesetSearchTerm = e => {
         setSearchTerm(e.target.value)
-        console.log(searchTerm)
+        setSearchs([])
     }
 
     function sortByNameAscending() {
@@ -259,12 +259,12 @@ const SearchMore = ({ searchs, setSearchs }) => {
     };
 
     const displayUsers = searchs
-        .slice(pagesVisited, pagesVisited + usersPerPage)
         .filter((filtered) => {
             if (filtered[4].toLowerCase().includes(searchTerm.toLowerCase()) && !searchTerm == "") {
                 return filtered
             }
         })
+        .slice(pagesVisited, pagesVisited + usersPerPage)
         .map((prods, index) => (
             <>
                 {
@@ -302,7 +302,7 @@ const SearchMore = ({ searchs, setSearchs }) => {
                             id="searchButton"
                             className={classes.button}
                             onClick={(e) => handleGetResult(e)}
-                            type="submit">
+                        >
                             Search</button>
                     </form>
                 </div>
