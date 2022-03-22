@@ -1,24 +1,33 @@
-import logo from './logo.svg';
+import React, { useState } from 'react'
 import './App.css';
+import SearchMain from './Components/SearchMain';
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import SearchMore from './Components/SearchMore';
 
 function App() {
+  const [searchs, setSearchs] = useState([])
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div>
+        <Switch>
+          <Route
+            path="/"
+            exact
+            render={() => (
+              <React.Fragment>
+                <SearchMain searchs={searchs} setSearchs={setSearchs} />
+              </React.Fragment>
+            )}>
+          </Route>
+          <Route
+            path="/more"
+          >
+            <SearchMore searchs={searchs} setSearchs={setSearchs} />
+          </Route>
+        </Switch>
+      </div>
+    </Router>
   );
 }
 
