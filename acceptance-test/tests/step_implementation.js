@@ -66,18 +66,19 @@ step('I should see an searchButton on Main page', async () => {
 step('When I fill input field with a country name I should see search results on Main page', async () => {
     await click($('#input'))
     await write("United")
-    /*   await click($('#todo-details')) */
-
+    await click($('#searchButton'))
+    assert.ok(await $('#countryAndCity').exists());
 });
 
 step('When I fill input field wita country name I should see showmore option', async () => {
-    await clear()
     await click($('#input'))
-    await write("United")
+
+    await click($('#searchButton'))
     assert.ok(await $('#showMore').exists());
 });
 
 step('After clicking showmore option I should go to showmore page', async () => {
+    await waitFor(1000);
     await click($('#showMore'))
     assert.ok(await $('#orderBy').exists());
 });
@@ -93,6 +94,11 @@ step('I should see OrderBy button and Paginate', async () => {
 });
 
 step('When I am click Country ascending sort option ı should see Angola on first page', async () => {
+    await click($('#input'))
+    await write("a")
+    await click($('#searchButton'))
+    assert.ok(await text('Eritrea').exists());
+    await waitFor(1000);
     await click($('#orderBy'))
     await click($('#sortByCountryAscending'))
     assert.ok(await text('Angola').exists());

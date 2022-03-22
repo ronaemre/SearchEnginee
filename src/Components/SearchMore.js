@@ -214,13 +214,23 @@ const SearchMore = ({ searchs, setSearchs }) => {
 
     const handleShow = () => setShow(true);
 
-    useEffect(() => {
+    /*     useEffect(() => {
+            getSearchs(setSearchs)
+        }, [])
+     */
+    const handleGetResult = e => {
+        e.preventDefault();
         getSearchs(setSearchs)
-    }, [])
+    }
 
-    function sortByCountryAscending() {
+    const handlesetSearchTerm = e => {
+        setSearchTerm(e.target.value)
+        console.log(searchTerm)
+    }
+
+    function sortByNameAscending() {
         const sortedAscending = searchs
-        sortedAscending.sort((a, b) => a[4] > b[4] ? 1 : -1);
+        sortedAscending.sort((a, b) => a[0] > b[0] ? 1 : -1);
         setSearchs(sortedAscending)
         setShow(false)
         console.log(sortedAscending)
@@ -228,22 +238,22 @@ const SearchMore = ({ searchs, setSearchs }) => {
 
     function sortByNameDescending() {
         const sortedDescending = searchs
-        sortedDescending.sort((a, b) => a[4] < b[4] ? 1 : -1);
+        sortedDescending.sort((a, b) => a[0] < b[0] ? 1 : -1);
         setShow(false)
         setSearchs(sortedDescending)
 
     };
 
-    function sortByYearAscending() {
+    function sortByCountryAscending() {
         const sortedAscending = searchs
-        sortedAscending.sort((a, b) => a[3] > b[3] ? 1 : -1);
+        sortedAscending.sort((a, b) => a[4] > b[4] ? 1 : -1);
         setShow(false)
         setSearchs(sortedAscending)
     };
 
-    function sortByYearDescending() {
+    function sortByCountryDescending() {
         const sortedDescending = searchs
-        sortedDescending.sort((a, b) => a[3] < b[3] ? 1 : -1);
+        sortedDescending.sort((a, b) => a[4] < b[4] ? 1 : -1);
         setShow(false)
         setSearchs(sortedDescending)
     };
@@ -251,14 +261,14 @@ const SearchMore = ({ searchs, setSearchs }) => {
     const displayUsers = searchs
         .slice(pagesVisited, pagesVisited + usersPerPage)
         .filter((filtered) => {
-            if (filtered[4].includes(searchTerm)) {
+            if (filtered[4].toLowerCase().includes(searchTerm.toLowerCase()) && !searchTerm == "") {
                 return filtered
             }
         })
         .map((prods, index) => (
             <>
                 {
-                    <div className={classes.listResult} >
+                    <div key={index} className={classes.listResult} >
                         <div className={classes.countryAndCity}>
                             {prods[4]}-{prods[5]}
                             <div className={classes.nameAndDate}>
@@ -282,12 +292,18 @@ const SearchMore = ({ searchs, setSearchs }) => {
                 <div className={classes.searchBarDiv}>
                     <form>
                         <input
+                            id="input"
                             className={classes.input}
                             type="text"
                             placeholder="Search..."
-                            onChange={(e) => setSearchTerm(e.target.value)}
+                            onChange={(e) => handlesetSearchTerm(e)}
                         />
-                        <button className={classes.button} type="submit">Search</button>
+                        <button
+                            id="searchButton"
+                            className={classes.button}
+                            onClick={(e) => handleGetResult(e)}
+                            type="submit">
+                            Search</button>
                     </form>
                 </div>
             </div>
@@ -296,10 +312,10 @@ const SearchMore = ({ searchs, setSearchs }) => {
                 <button id="orderBy" onClick={() => handleShow()} className={classes.orderButton}>Order By</button>
                 {show == true &&
                     <div className={classes.orderOptions}>
+                        <p id="sortByNameAscending" className={classes.orderItems} onClick={() => sortByNameAscending()}>Name ascending</p>
+                        <p className={classes.orderItems} onClick={() => sortByNameDescending()}>Name descending</p>
                         <p id="sortByCountryAscending" className={classes.orderItems} onClick={() => sortByCountryAscending()}>Country ascending</p>
-                        <p className={classes.orderItems} onClick={() => sortByNameDescending()}>Country descending</p>
-                        <p className={classes.orderItems} onClick={() => sortByYearAscending()}>Year ascending</p>
-                        <p className={classes.orderItems} onClick={() => sortByYearDescending()}>Year descending</p>
+                        <p className={classes.orderItems} onClick={() => sortByCountryDescending()}>Country descending</p>
                     </div>}
             </div>
             <div>
@@ -323,7 +339,7 @@ const SearchMore = ({ searchs, setSearchs }) => {
                 </div>
             </div>
 
-        </div>
+        </div >
     )
 }
 

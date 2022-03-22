@@ -140,9 +140,15 @@ const SearchMain = ({ searchs, setSearchs }) => {
     const [searchTerm, setSearchTerm] = useState("")
     const classes = useStyles()
 
-    useEffect(() => {
+    /*     useEffect(() => {
+            getSearchs(setSearchs)
+        }, [])
+     */
+    const handleGetResult = e => {
+        e.preventDefault();
         getSearchs(setSearchs)
-    }, [])
+    }
+
 
     function handleDetails() {
         window.location = "/more"
@@ -164,7 +170,13 @@ const SearchMain = ({ searchs, setSearchs }) => {
                             placeholder="Search..."
                             onChange={(e) => setSearchTerm(e.target.value)}
                         />
-                        <button id="searchButton" className={classes.button} type="submit">Search</button>
+                        <button
+                            id="searchButton"
+                            className={classes.button}
+                            onClick={(e) => handleGetResult(e)}
+                            type="submit">
+                            Search
+                        </button>
                     </form>
                 </div>
                 <div className={classes.results}>
@@ -173,7 +185,7 @@ const SearchMain = ({ searchs, setSearchs }) => {
                             if (searchTerm == "") {
                                 return null
                             }
-                            else if (filtered[4].includes(searchTerm)) {
+                            else if (filtered[4].toLowerCase().includes(searchTerm.toLowerCase())) {
                                 return filtered
                             }
                         })
